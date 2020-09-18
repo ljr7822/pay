@@ -4,6 +4,7 @@ import com.lly835.bestpay.config.AliPayConfig;
 import com.lly835.bestpay.config.WxPayConfig;
 import com.lly835.bestpay.service.BestPayService;
 import com.lly835.bestpay.service.impl.BestPayServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -15,24 +16,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BestPayConfig {
+
+    @Autowired
+    private WxAccountConfig wxAccountConfig;
+
     /**
      * @return “@Bean”希望项目启动的时候执行
      */
     @Bean
-    public BestPayService bestPayService() {
-        /**
-         * 微信支付配置
-         */
-        WxPayConfig wxPayConfig = new WxPayConfig();
-        // appid：一定要是公众号的
-        wxPayConfig.setAppId("wxd898fcb01713c658");
-        // 商户号
-        wxPayConfig.setMchId("1483469312");
-        // 商户密钥
-        wxPayConfig.setMchKey("098F6BCD4621D373CADE4E832627B4F6");
-        // 回调的url：这里使用了内网穿透
-        wxPayConfig.setNotifyUrl("http://iwen-mall.natapp1.cc/pay/notify");
-
+    public BestPayService bestPayService(WxPayConfig wxPayConfig) {
         /**
          * 支付宝配置类
          */
@@ -50,5 +42,28 @@ public class BestPayConfig {
 
         // 返回配置
         return bestPayService;
+    }
+
+    /**
+     * 微信支付相关的配置
+     *
+     * @return 配置列表
+     */
+    @Bean
+    public WxPayConfig wxPayConfig() {
+        /**
+         * 微信支付配置
+         */
+        WxPayConfig wxPayConfig = new WxPayConfig();
+        // appid：一定要是公众号的
+        wxPayConfig.setAppId(wxAccountConfig.getAppId());
+        // 商户号
+        wxPayConfig.setMchId(wxAccountConfig.getMchId());
+        // 商户密钥
+        wxPayConfig.setMchKey(wxAccountConfig.getMchKey());
+        // 回调的url：这里使用了内网穿透
+        wxPayConfig.setNotifyUrl(wxAccountConfig.getNotifyUrl());
+        wxPayConfig.setReturnUrl(wxAccountConfig.getReturnUrl());
+        return wxPayConfig;
     }
 }

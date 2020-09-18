@@ -12,3 +12,10 @@ mybatis:
 logging:
   pattern:
     console: "[%thread] %-5level %logger{36} - %msg%n"
+
+wx:
+  appId: wxd898fcb01713c658
+  mchId: 1483469312
+  mchKey: 098F6BCD4621D373CADE4E832627B4F6
+  notifyUrl: http://iwen-mall.natapp1.cc/pay/notify
+  returnUrl: http://127.0.0.1

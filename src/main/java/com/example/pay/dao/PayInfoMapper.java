@@ -14,4 +14,6 @@ public interface PayInfoMapper {
     int updateByPrimaryKeySelective(PayInfo record);
 
     int updateByPrimaryKey(PayInfo record);
+
+    PayInfo selectByOrderNo(Long order_no);
 }
